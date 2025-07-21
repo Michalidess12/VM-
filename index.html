@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #0d2b4f, #1e90ff);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+        }
+        .display {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 100%;
+            padding: 10px;
+            font-size: 2em;
+            text-align: right;
+            color: #00aaff;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+        }
+        button {
+            padding: 15px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            background: #1e90ff;
+            color: #fff;
+            box-shadow: 0 3px #0d2b4f;
+        }
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px #0d2b4f;
+        }
+        .funny {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #b0e0ff;
+        }
+        .homer {
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+        .population {
+            text-align: center;
+            margin-top: 10px;
+            color: #b0e0ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="funny">This calculator is so futuristic, it might just predict your next snack craving!</div>
+        <img class="homer" src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="Dancing Homer Simpson from The Simpsons">
+        <input type="text" class="display" id="display" disabled>
+        <div class="buttons">
+            <button data-value="7">7</button>
+            <button data-value="8">8</button>
+            <button data-value="9">9</button>
+            <button data-value="/">&divide;</button>
+            <button data-value="4">4</button>
+            <button data-value="5">5</button>
+            <button data-value="6">6</button>
+            <button data-value="*">&times;</button>
+            <button data-value="1">1</button>
+            <button data-value="2">2</button>
+            <button data-value="3">3</button>
+            <button data-value="-">-</button>
+            <button data-value="0">0</button>
+            <button data-value=".">.</button>
+            <button id="clear">C</button>
+            <button data-value="+">+</button>
+            <button id="equals" style="grid-column: span 4; background:#00aaff;">=</button>
+        </div>
+    </div>
+    <div class="population">Approximate world population: <span id="worldPop"></span></div>
+
+    <script>
+        const display = document.getElementById('display');
+        const buttons = document.querySelectorAll('button[data-value]');
+        const clear = document.getElementById('clear');
+        const equals = document.getElementById('equals');
+        const worldPopSpan = document.getElementById("worldPop");
+        function updateWorldPop() {
+            const basePop = 8100000000;
+            const baseDate = new Date("2024-01-01T00:00:00Z");
+            const growthRate = 0.010; // about 1% annual growth
+            const now = new Date();
+            const years = (now - baseDate) / (1000 * 60 * 60 * 24 * 365);
+            const pop = Math.round(basePop * Math.exp(growthRate * years));
+            worldPopSpan.textContent = pop.toLocaleString();
+        }
+        updateWorldPop();
+        setInterval(updateWorldPop, 1000);
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                display.value += btn.dataset.value;
+            });
+        });
+
+        clear.addEventListener('click', () => {
+            display.value = '';
+        });
+
+        equals.addEventListener('click', () => {
+            try {
+                display.value = eval(display.value);
+            } catch {
+                display.value = 'Error';
+            }
+        });
+    </script>
+</body>
+</html>
