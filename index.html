@@ -60,11 +60,22 @@
             font-size: 0.9em;
             color: #b0e0ff;
         }
+        .homer {
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+        .population {
+            text-align: center;
+            margin-top: 10px;
+            color: #b0e0ff;
+        }
     </style>
 </head>
 <body>
     <div class="calculator">
         <div class="funny">This calculator is so futuristic, it might just predict your next snack craving!</div>
+        <img class="homer" src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="Dancing Homer Simpson from The Simpsons">
         <input type="text" class="display" id="display" disabled>
         <div class="buttons">
             <button data-value="7">7</button>
@@ -86,12 +97,25 @@
             <button id="equals" style="grid-column: span 4; background:#00aaff;">=</button>
         </div>
     </div>
+    <div class="population">Approximate world population: <span id="worldPop"></span></div>
 
     <script>
         const display = document.getElementById('display');
         const buttons = document.querySelectorAll('button[data-value]');
         const clear = document.getElementById('clear');
         const equals = document.getElementById('equals');
+        const worldPopSpan = document.getElementById("worldPop");
+        function updateWorldPop() {
+            const basePop = 8100000000;
+            const baseDate = new Date("2024-01-01T00:00:00Z");
+            const growthRate = 0.010; // about 1% annual growth
+            const now = new Date();
+            const years = (now - baseDate) / (1000 * 60 * 60 * 24 * 365);
+            const pop = Math.round(basePop * Math.exp(growthRate * years));
+            worldPopSpan.textContent = pop.toLocaleString();
+        }
+        updateWorldPop();
+        setInterval(updateWorldPop, 1000);
 
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
